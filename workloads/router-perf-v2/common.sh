@@ -282,13 +282,19 @@ gen_mb_mix_config(){
 
 test_routes(){
   log "Testing all routes before triggering the workload"
+  local testdir=$(mktemp -d)
   for termination in http edge passthrough reencrypt; do
     local scheme="https://"
     if [[ ${termination} == "http" ]]; then
       local scheme="http://"
     fi
     for host in $(oc get route -n http-scale-${termination} --no-headers -o custom-columns="route:.spec.host"); do
-      curl --retry 3 --connect-timeout 5 -sSk ${scheme}${host}${URL_PATH} -o /dev/null
+      echo "curl --retry 3 --connect-timeout 5 -sSk ${scheme}${host}${URL_PATH} 2>&1 > /dev/null" >> "$testdir/$termination"
     done
+  done
+  log "Testing all routes before triggering the workload"
+  for termination in http edge passthrough reencrypt; do
+      echo "$testdir/$termination"
+      time (ulimit -n 8192; parallel --eta --bar --keep-order --joblog joblog.$termination --jobs 8 < "$testdir/$termination")
   done
 }
