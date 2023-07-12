@@ -1,0 +1,40 @@
+- termination: http
+  connections: 200
+  samples: 1
+  duration: 5s
+  path: /1024.html
+  concurrency: 18
+  tool: wrk
+  serverReplicas: 45
+  delay: 0s
+
+- termination: edge
+  connections: 200
+  samples: 1
+  duration: 5s
+  path: /1024.html
+  concurrency: 18
+  tool: wrk
+  serverReplicas: 45
+  delay: 0s
+
+- termination: reencrypt
+  connections: 200
+  samples: 1
+  duration: 5s
+  path: /1024.html
+  concurrency: 18
+  tool: wrk
+  serverReplicas: 45
+  delay: 0s
+
+- termination: passthrough
+  connections: 200
+  samples: 1
+  duration: 5s
+  path: /1024.html
+  concurrency: 18
+  tool: wrk
+  serverReplicas: 45
+  delay: 0s
+
