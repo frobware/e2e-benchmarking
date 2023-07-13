@@ -1,0 +1,12 @@
+# vi: expandtab shiftwidth=2 softtabstop=2
+
+- termination: passthrough
+  connections: 200
+  samples: 1
+  duration: 1m
+  path: /1024.html
+  concurrency: 30
+  tool: wrk
+  serverReplicas: 45
+  delay: 0s
+

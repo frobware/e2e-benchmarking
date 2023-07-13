@@ -1,0 +1,13 @@
+# vi: expandtab shiftwidth=2 softtabstop=2
+
+- termination: http
+  connections: 1000
+  samples: 5
+  duration: 15s
+  path: /1024.html
+  concurrency: 64
+  tool: wrk
+  serverReplicas: 64
+  delay: 0s
+  tuningPatch: '{"spec":{"nodePlacement": {"nodeSelector": {"matchLabels": {"node-role.kubernetes.io/infra": ""}}}, "replicas": 2}}'
+
